@@ -33,33 +33,34 @@
                 </div>
             </div>
             <div class="card-body">
-                <form id="registerForm">
+                <form method="POST" action="{{ route('register') }}" id="registerForm">
+                    @csrf
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" id="name" class="form-control" placeholder="Nombre">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Nombre" required>
                     </div>
                     <span id="nameError" class="error-message"></span>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                         </div>
-                        <input type="email" id="email" class="form-control" placeholder="Correo electrónico">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Correo electrónico" required>
                     </div>
                     <span id="emailError" class="error-message"></span>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" id="password" class="form-control" placeholder="Contraseña">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
                     </div>
                     <span id="passwordError" class="error-message"></span>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirmar contraseña">
+                        <input type="password" id="confirmPassword" name="password_confirmation" class="form-control" placeholder="Confirmar contraseña" required>
                     </div>
                     <span id="confirmPasswordError" class="error-message"></span>
                     <div class="form-group">
@@ -99,6 +100,9 @@
         if (document.getElementById('password').value === '') {
             document.getElementById('passwordError').textContent = 'Contraseña es requerida';
             valid = false;
+        } else if (document.getElementById('password').value.length < 8) {
+            document.getElementById('passwordError').textContent = 'La contraseña debe tener al menos 8 caracteres';
+            valid = false;
         }
         if (document.getElementById('confirmPassword').value === '') {
             document.getElementById('confirmPasswordError').textContent = 'Confirmar contraseña es requerido';
@@ -110,17 +114,8 @@
         }
 
         if (valid) {
-            // Assign default role (cliente)
-            const user = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                role: 0 // cliente
-            };
-
-            // Here you would typically send the user data to your server
-            console.log('User registered:', user);
-            alert('Registro exitoso');
+            // Submit the form
+            document.getElementById('registerForm').submit();
         }
     });
 </script>
